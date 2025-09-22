@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Lyvo — Mini App (React)</title>
+
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <!-- Reuse your existing CSS build -->
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- Keep the robust scroll-lock for iOS/Telegram -->
+    <script src="/js/bottomsheet-lock.js"></script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
