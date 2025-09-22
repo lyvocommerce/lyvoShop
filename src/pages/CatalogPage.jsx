@@ -131,6 +131,7 @@ export function CatalogPage() {
   // ---- сортировка (Telegram popup + fallback) ----
   function openSort() {
     const tg = window.Telegram?.WebApp;
+
     const applyChoice = (id) => {
       if (['', 'price_asc', 'price_desc', 'rating_desc'].includes(id)) {
         setSort(id);
@@ -139,33 +140,49 @@ export function CatalogPage() {
       }
     };
 
-    if (tg && typeof tg.showPopup === 'function') {
-      tg.showPopup(
-        {
-          title: 'Sort by',
-          message: 'Choose sorting option',
-          buttons: [
-            { id: '', type: 'default', text: 'Relevance' },
-            { id: 'price_asc', type: 'default', text: 'Price: Low → High' },
-            { id: 'price_desc', type: 'default', text: 'Price: High → Low' },
-            { id: 'rating_desc', type: 'default', text: 'Rating' },
-            { id: 'cancel', type: 'cancel' },
-          ],
-        },
-        (buttonId) => {
-          if (buttonId && buttonId !== 'cancel') applyChoice(buttonId);
-        }
+    const openFallbackPrompt = () => {
+      const map = { '1': '', '2': 'price_asc', '3': 'price_desc', '4': 'rating_desc' };
+      const ans = window.prompt(
+        'Sort by:\n1) Relevance\n2) Price: Low → High\n3) Price: High → Low\n4) Rating',
+        '1'
       );
-      return;
+      const id = map[String(ans || '1')];
+      applyChoice(id);
+    };
+
+    // ✅ Безопасная проверка версии Telegram WebApp + отлавливаем ошибки
+    try {
+      const supportsPopup =
+        tg &&
+        (typeof tg.isVersionAtLeast === 'function'
+          ? tg.isVersionAtLeast('6.2')           // showPopup стабильно с 6.2+
+          : false);
+
+      if (supportsPopup && typeof tg.showPopup === 'function') {
+        tg.showPopup(
+          {
+            title: 'Sort by',
+            message: 'Choose sorting option',
+            buttons: [
+              { id: '',           type: 'default', text: 'Relevance' },
+              { id: 'price_asc',  type: 'default', text: 'Price: Low → High' },
+              { id: 'price_desc', type: 'default', text: 'Price: High → Low' },
+              { id: 'rating_desc',type: 'default', text: 'Rating' },
+              { id: 'cancel',     type: 'cancel' }
+            ],
+          },
+          (buttonId) => {
+            if (buttonId && buttonId !== 'cancel') applyChoice(buttonId);
+          }
+        );
+        return;
+      }
+    } catch (e) {
+      console.warn('showPopup unsupported, falling back:', e);
     }
 
-    const map = { '1': '', '2': 'price_asc', '3': 'price_desc', '4': 'rating_desc' };
-    const ans = window.prompt(
-      'Sort by:\n1) Relevance\n2) Price: Low → High\n3) Price: High → Low\n4) Rating',
-      '1'
-    );
-    const id = map[String(ans || '1')];
-    applyChoice(id);
+    // 🔁 Фолбэк для старых клиентов Telegram и обычного браузера
+    openFallbackPrompt();
   }
 
   // ---- filter sheet handlers ----
