@@ -10,15 +10,17 @@ export default function App() {
     const tg = window.Telegram?.WebApp;
     tg?.ready?.();
     tg?.expand?.();
-    // (опц) цвета хедера/фона
     tg?.setHeaderColor?.('#ffffff');
     tg?.setBackgroundColor?.('#ffffff');
   }, []);
 
   if (status === 'loading') {
-    return <div className="p-4 text-[15px]">Connecting Telegram…</div>;
+    return <div className="p-4 text-[15px] text-center">Connecting Telegram…</div>;
   }
 
-  // user === null, если открыто НЕ из Telegram (гость) — это нормально
-  return <CatalogPage user={user} />;
+  return (
+    <div className="mx-auto max-w-[720px] px-4 sm:px-6 md:px-8">
+      <CatalogPage user={user} />
+    </div>
+  );
 }
