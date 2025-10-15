@@ -6,7 +6,7 @@ import { Toolbar } from '../components/Toolbar.jsx';
 import { ChipsRow } from '../components/ChipsRow.jsx';
 import { ActiveChips } from '../components/ActiveChips.jsx';
 import { FilterSheet } from '../components/FilterSheet.jsx';
-import { ProductCard } from '../components/ProductCard.jsx';
+import ProductCard from '../components/ProductCard.jsx';
 import { Pager } from '../components/Pager.jsx';
 
 export function CatalogPage() {
