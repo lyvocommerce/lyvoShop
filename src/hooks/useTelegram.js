@@ -1,17 +1,15 @@
-import { useCallback, useEffect, useMemo } from 'react';
+// src/hooks/useTelegram.js
+import { useEffect, useMemo, useCallback } from 'react';
 
 export function useTelegram() {
-  const tg = useMemo(() => window.Telegram?.WebApp, []);
+  const tg = useMemo(() => window?.Telegram?.WebApp || null, []);
 
   useEffect(() => {
-    try {
-      tg?.ready();
-      tg?.enableClosingConfirmation();
-    } catch {}
+    tg?.ready?.();
   }, [tg]);
 
   const expand = useCallback(() => {
-    try { tg?.expand(); } catch {}
+    tg?.expand?.();
   }, [tg]);
 
   return { tg, expand };

@@ -2,21 +2,46 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <title>Lyvo — Mini App (React)</title>
+
+    <!-- Icons & colors -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0b0b0b" media="(prefers-color-scheme: dark)">
+    <meta name="color-scheme" content="light dark">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <!-- Reuse your existing CSS build -->
+    <!-- Global styles from /public -->
     <link rel="stylesheet" href="/css/styles.css" />
     <link rel="stylesheet" href="/css/custom.css" />
+
+    <!-- Safe-area base styles -->
+    <style>
+      :root {
+        --safe-top: env(safe-area-inset-top);
+        --safe-bottom: env(safe-area-inset-bottom);
+        --bg: #fff;
+      }
+      html, body, #root { height: 100%; }
+      body { margin: 0; background: var(--bg); }
+    </style>
   </head>
   <body>
     <div id="root"></div>
 
-    <!-- Keep the robust scroll-lock for iOS/Telegram -->
+    <!-- Optional: iOS/Telegram scroll lock helper (keep only if you use it) -->
     <script src="/js/bottomsheet-lock.js"></script>
+
+    <!-- React entry -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
