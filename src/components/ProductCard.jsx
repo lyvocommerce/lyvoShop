@@ -48,9 +48,11 @@ export default function ProductCard({ product }) {
     <div className="h-full flex flex-col rounded-2xl border border-[var(--border)] overflow-hidden bg-white hover:shadow transition-shadow">
       <div className="aspect-[4/3] overflow-hidden bg-[var(--card)] flex items-center justify-center">
         <img
-          src={imgSrc ? imgSrc(product) : product.image_url}
+          src={imgSrc(product)}
           alt={product.title}
           className="max-w-full max-h-full object-contain transition-opacity duration-300"
+          loading="lazy"
+          onError={(e) => (e.currentTarget.src = FALLBACK_IMG)}
         />
       </div>
 
