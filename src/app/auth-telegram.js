@@ -1,10 +1,14 @@
 // src/app/auth-telegram.js
 import crypto from 'node:crypto';
 
-// ✅ Telegram WebApp data validation (exactly per spec)
+// ✅ Telegram WebApp data validation — final version
 export function verifyTelegramInitData(initData, botToken) {
   try {
-    const params = new URLSearchParams(initData);
+    // 🩵 Попробуем двойное декодирование и нормализацию
+    let decoded = decodeURIComponent(initData);
+    decoded = decoded.replace(/\\\//g, '/'); // заменяем все '\/' на '/'
+
+    const params = new URLSearchParams(decoded);
     const hash = params.get('hash');
     if (!hash) return false;
 
@@ -26,8 +30,10 @@ export function verifyTelegramInitData(initData, botToken) {
       .update(dataCheckString)
       .digest('hex');
 
+    console.log('[Auth Debug]', { decoded, computed, hash, match: computed === hash });
     return computed === hash;
-  } catch {
+  } catch (err) {
+    console.error('[Auth Error]', err);
     return false;
   }
 }
