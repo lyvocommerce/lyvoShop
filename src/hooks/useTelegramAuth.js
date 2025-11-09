@@ -8,13 +8,16 @@ export function useTelegramAuth() {
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
-    const initData = typeof tg?.initData === 'string' ? tg.initData : '';
 
-    console.log("🔹 initData (string) =", initData.slice(0, 120) + '...');
+    // ✅ используем всегда "сырую" initData (официальную)
+    const initData = tg?.initData || window.Telegram?.WebApp?.initData || '';
+
+    console.log("🔹 initData (raw string) =", initData.slice(0, 120) + '...');
     console.log("🔹 initDataUnsafe (object) =", tg?.initDataUnsafe);
 
-    if (!initData) {
-      setStatus('guest'); // открыто в обычном браузере — работаем как гость
+    if (!initData || initData.trim() === '') {
+      console.warn("⚠️ No initData detected — guest mode.");
+      setStatus('guest');
       return;
     }
 
@@ -28,6 +31,7 @@ export function useTelegramAuth() {
             setUser(user || null);
             setStatus('ok');
           } else {
+            console.error("❌ Auth failed — backend returned error");
             setStatus('error');
           }
         }
