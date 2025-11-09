@@ -15,13 +15,13 @@ export function verifyTelegramInitData(initData, botToken) {
     pairs.sort();
     const dataCheckString = pairs.join('\n');
 
-    // secret = HMAC_SHA256("WebAppData", botToken)
-    const secret = crypto.createHmac('sha256', 'WebAppData')
+    // ✅ secret = SHA256(botToken)
+    const secretKey = crypto.createHash('sha256')
       .update(botToken)
       .digest();
 
-    // HMAC по data_check_string
-    const computed = crypto.createHmac('sha256', secret)
+    // ✅ HMAC по data_check_string
+    const computed = crypto.createHmac('sha256', secretKey)
       .update(dataCheckString)
       .digest('hex');
 
