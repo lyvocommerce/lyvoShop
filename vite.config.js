@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://lyvo-be.onrender.com', // твой Render-бэкенд
+        target: 'https://api.lyvoshop.app', // твой Render-бэкенд
         changeOrigin: true,
         secure: true,
         rewrite: (p) => p.replace(/^\/api/, ''),
