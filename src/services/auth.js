@@ -1,6 +1,5 @@
 // src/services/auth.js
-const API_BASE =
-  import.meta.env.VITE_API_URL || "/api"; // ✅ через Vercel rewrites
+const API_BASE = import.meta.env.VITE_API_URL || "/api"; // ✅ Proxy via Vercel
 
 export async function authTelegram(initData) {
   const res = await fetch(`${API_BASE}/auth`, {
@@ -16,5 +15,5 @@ export async function authTelegram(initData) {
 
   const data = await res.json();
   console.log("✅ Auth response:", data);
-  return data; // { ok, user }
+  return data;
 }
