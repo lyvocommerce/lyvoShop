@@ -1,3 +1,4 @@
+// src/app/App.jsx
 import React, { useEffect } from 'react';
 import { useTelegram } from '../hooks/useTelegram.js';
 import { CatalogPage } from '../pages/CatalogPage.jsx';

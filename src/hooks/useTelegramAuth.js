@@ -8,7 +8,10 @@ export function useTelegramAuth() {
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
-    const initData = tg?.initData || '';
+    const initData = typeof tg?.initData === 'string' ? tg.initData : '';
+
+    console.log("🔹 initData (string) =", initData.slice(0, 120) + '...');
+    console.log("🔹 initDataUnsafe (object) =", tg?.initDataUnsafe);
 
     if (!initData) {
       setStatus('guest'); // открыто в обычном браузере — работаем как гость
@@ -28,7 +31,8 @@ export function useTelegramAuth() {
             setStatus('error');
           }
         }
-      } catch {
+      } catch (err) {
+        console.error("❌ Telegram auth error:", err);
         if (!cancelled) setStatus('error');
       }
     })();

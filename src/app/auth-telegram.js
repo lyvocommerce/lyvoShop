@@ -1,4 +1,4 @@
-// auth-telegram.js
+// src/app/auth-telegram.js
 import crypto from 'node:crypto';
 
 export function verifyTelegramInitData(initData, botToken) {
