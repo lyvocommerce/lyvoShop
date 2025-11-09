@@ -1,6 +1,6 @@
 // src/services/auth.js
 const API_BASE =
-  import.meta.env.VITE_API_URL || "https://lyvo-be.onrender.com"; // ✅ Production fallback
+  import.meta.env.VITE_API_URL || "/api"; // ✅ через Vercel rewrites
 
 export async function authTelegram(initData) {
   const res = await fetch(`${API_BASE}/auth`, {
