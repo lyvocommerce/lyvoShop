@@ -1,13 +1,20 @@
 // src/services/auth.js
 const API_BASE =
-  import.meta.env.VITE_API_URL || "https://lyvo-be.onrender.com"; // ✅ твой backend
+  import.meta.env.VITE_API_URL || "https://lyvo-be.onrender.com"; // ✅ Production fallback
 
 export async function authTelegram(initData) {
-  const res = await fetch(`${API_BASE}/auth/telegram`, {
+  const res = await fetch(`${API_BASE}/auth`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ initData }),
   });
-  if (!res.ok) throw new Error(`Auth failed: ${res.status}`);
-  return res.json(); // { ok, user }
+
+  if (!res.ok) {
+    console.error("❌ Auth failed:", res.status);
+    throw new Error(`Auth failed: ${res.status}`);
+  }
+
+  const data = await res.json();
+  console.log("✅ Auth response:", data);
+  return data; // { ok, user }
 }
